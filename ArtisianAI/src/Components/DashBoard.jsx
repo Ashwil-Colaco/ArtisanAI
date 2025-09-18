@@ -1,61 +1,226 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import "./DashBoard.css";
+import Header from "./Header";
 
 const Dashboard = () => {
-    const artisanData = [
-        { artisanName: "Armaan", productName: "Product A1", productValue: 1000, sales: [30, 45, 60, 50, 40, 70] },
-        { artisanName: "Carl", productName: "Product B1", productValue: 2000, sales: [60, 50, 45, 80, 90, 100] },
-        { artisanName: "Ashwil", productName: "Product C1", productValue: 1500, sales: [40, 60, 55, 40, 45, 65] },
-        { artisanName: "Yashwanth", productName: "Product D1", productValue: 1800, sales: [50, 55, 70, 65, 80, 75] },
-        { artisanName: "Bhuvan", productName: "Product E1", productValue: 2200, sales: [80, 60, 90, 100, 95, 85] },
-        { artisanName: "Ramesh", productName: "Product F1", productValue: 1700, sales: [30, 40, 60, 75, 70, 85] },
-        { artisanName: "Yashwanth", productName: "Product G1", productValue: 2000, sales: [40, 60, 70, 50, 60, 85] },
-        { artisanName: "Suresh", productName: "Product H1", productValue: 2500, sales: [90, 100, 120, 110, 105, 95] },
-        { artisanName: "Ram", productName: "Product I1", productValue: 1600, sales: [50, 60, 80, 70, 75, 85] },
-        { artisanName: "Shyam", productName: "Product J1", productValue: 2100, sales: [80, 90, 85, 100, 95, 110] },
-    ];
+  const artisanData = [
+    {
+      artisanName: "Armaan",
+      productName: "Pottery",
+      productValue: 1000,
+      sales: [30, 45, 60, 50, 40, 70],
+      revenueYearp: 125000,
+      revenueYeart: 150000, 
+    },
+    {
+      artisanName: "Carl",
+      productName: "Architecture",
+      productValue: 2000,
+      sales: [60, 50, 45, 80, 90, 100],
+      revenueYearp: 85000,
+      revenueYeart: 100000, 
+    },
+    {
+      artisanName: "Ashwil",
+      productName: "Weaving",
+      productValue: 1500,
+      sales: [40, 60, 55, 40, 45, 65],
+      revenueYearp: 15000,
+      revenueYeart: 30000, 
+    },
+    {
+      artisanName: "Yashwanth",
+      productName: "Jute Products",
+      productValue: 1800,
+      sales: [50, 55, 70, 65, 80, 75],
+      revenueYearp: 90000,
+      revenueYeart: 110000, 
+    },
+    {
+      artisanName: "Bhuvan",
+      productName: "Wooden Items",
+      productValue: 2200,
+      sales: [80, 60, 90, 100, 95, 85],
+      revenueYearp: 88000,
+      revenueYeart: 100000, 
+    },
+    {
+      artisanName: "Ramesh",
+      productName: "Eatables",
+      productValue: 1700,
+      sales: [30, 40, 60, 75, 70, 85],
+      revenueYearp: 85000,
+      revenueYeart: 102000, 
+    },
+    {
+      artisanName: "Yashwanth",
+      productName: "Beverages",
+      productValue: 2000,
+      sales: [40, 60, 70, 50, 60, 85],
+      revenueYearp: 124000,
+      revenueYeart: 150000, 
+    },
+    {
+      artisanName: "Suresh",
+      productName: "Clothes",
+      productValue: 2500,
+      sales: [90, 100, 120, 110, 105, 95],
+      revenueYearp: 125000,
+      revenueYeart: 150000, 
+    },
+    {
+      artisanName: "Ram",
+      productName: "Ethnic Paintings",
+      productValue: 1600,
+      sales: [50, 60, 80, 70, 75, 85],
+      revenueYearp: 108000,
+      revenueYeart: 122600, 
+    },
+    {
+      artisanName: "Shyam",
+      productName: "Mosaic Art",
+      productValue: 2100,
+      sales: [80, 90, 85, 100, 95, 110],
+      revenueYearp: 125000,
+      revenueYeart: 150000, 
+    },
+  ];
 
-    const [currentDataIndex, setCurrentDataIndex] = useState(0);
+  const [currentDataIndex, setCurrentDataIndex] = useState(0);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentDataIndex((prevIndex) => (prevIndex + 1) % artisanData.length);
-        }, 10000);
-        return () => clearInterval(interval);
-    }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDataIndex((prevIndex) => (prevIndex + 1) % artisanData.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
-    const currentData = artisanData[currentDataIndex];
+  const currentData = artisanData[currentDataIndex];
 
-    const chartOptions = {
-        chart: { id: "Sales Chart" },
-        xaxis: { categories: ["2020", "2021", "2022", "2023", "2024", "2025"] },
-        yaxis: { title: { text: "Units Sold over the years" } },
-    };
+  const chartOptions = {
+    chart: { id: "Sales Chart" },
+    xaxis: {
+      categories: ["2020", "2021", "2022", "2023", "2024", "2025"],
+      title: { text: "Sales over the years" },
+    },
+    yaxis: { title: { text: "Units Sold over the years" } },
+  };
 
-    const chartData = {
-        series: [{ name: currentData.artisanName, data: currentData.sales }],
-    };
+  const chartData = {
+    series: [{ name: currentData.artisanName, data: currentData.sales }],
+  };
 
-    return (
-        <div style={{ backgroundColor: "rgb(15,23,42)", minHeight: "100vh", color: "white", padding: "0px",width:"1600px" }}>
-            <header>DASHBOARD</header>
-            <div style={{display:"flex",flexDirection:"row",marginTop:"200px"}}>
-                <div style={{fontFamily:"sans-serif",backgroundColor:"rgb(71 85 105)" ,width:"300px", borderRadius:"20px",marginLeft:"10px",filter:"drop-shadow(2px 2px 2px white)"}}>
-            
-                <h3 style={{paddingTop:"1px",paddingLeft:"5px"}}>{currentData.artisanName}</h3>
-                <h4 style={{paddingLeft:"5px"}}>{currentData.productName} - ${currentData.productValue}</h4>
-                <div className="chart-container" style={{backgroundColor:"rgb(148 163 184)" ,width:"300px"}}>
-                <h3>Sales Over Time</h3>
-                <Chart options={chartOptions} series={chartData.series} type="line" height={200} width={300} />
-                </div>
-                </div>
-                <div>
+  const productNames = artisanData.map((item) => item.productName);
+  const productValues = artisanData.map((item) => item.productValue);
 
-                </div>
-            </div>
-            
+  const revOptions = {
+    chart: { id: "Revenue Chart" },
+    xaxis: {
+      categories: productNames,
+      title: { text: "Products" },
+      labels: { rotate: -45 }, // tilt labels for better readability
+    },
+    yaxis: {
+      title: { text: "Product Value ($)" },
+    },
+    plotOptions: {
+      bar: { borderRadius: 4, horizontal: false }, // rounded bars
+    },
+    colors: ["#60A5FA"], // optional: blue bars
+  };
+
+  const revSeries = [
+    {
+      name: "Product Value",
+      data: productValues,
+    },
+  ];
+  const [index, setIndex] = useState(0);
+  const [colorIndex, setColorIndex] = useState(0);
+  const [widIndex,setWidIndex] = useState(0);
+
+  const width = [
+    "w-60",
+    "w-72",
+    "w-54",
+    "w-40",
+    "w-60",
+    "w-48",
+    "w-68",
+    "w-50",
+    "w-62",
+    "w-50",
+  ];
+  const colors = [
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-yellow-500",
+    "bg-pink-500",
+    "bg-indigo-500",
+    "bg-orange-500",
+    "bg-white",
+    "bg-slate-200",
+  ];
+  useEffect(()=>{
+    const interval = setInterval(()=> {
+        setIndex((prev)=>(prev+1)% artisanData.length);
+    setColorIndex((prev)=>(prev+1)% colors.length);
+setWidIndex((prev)=>(prev+1)% width.length);},10000);
+    return () => clearInterval(interval);
+  },[artisanData.length, colors.length, width.length]);
+
+  const artisan = artisanData[index];
+
+
+  return (
+    <div>
+      <Header />
+      <div className="flex flex-row mt-20 ">
+        <div className="bg-slate-600 w-2/9 ml-40 h-20 rounded-2xl">
+            <h3 className="font-extrabold ml-2">Revenue of {artisan.productName} in 2024</h3>
+            <div className="font-mono ml-2">&#8377;{artisan.revenueYearp}</div>
+            <div className={`ml-2 ${width[widIndex]} ${colors[colorIndex]} h-1 mt-3 transition-all ease-in-out duration-1200`}></div>
         </div>
-    );
+        <div className="bg-slate-600 w-2/9 ml-25 h-20 rounded-2xl">
+            <h3 className="font-extrabold ml-2">Revenue of {artisan.productName} in 2025</h3>
+            <div className="font-mono ml-2">&#8377;{artisan.revenueYeart}</div>
+            <div className={`ml-2 ${width[widIndex]} ${colors[colorIndex]} h-1 mt-3 transition-all ease-in-out duration-1200`}></div>
+        </div>
+        <div className="bg-slate-600 w-2/9 ml-25 h-20 rounded-2xl">
+            <h3 className="font-extrabold ml-2">Year-Over-Year (YoY) growth</h3>
+            <h4 className="font-bold ml-2">{artisan.productName}</h4>
+            <div className="font-mono ml-2">{artisan.revenueYeart}-{artisan.revenueYearp}</div>
+        </div>
+      </div>
+      <div className="flex flex-row mt-20">
+        <div className="bg-slate-600 w-2/9 rounded-2xl py-2 drop-shadow-xl/20 ml-60">
+          <h3 className="px-5 font-extrabold">{currentData.artisanName}</h3>
+          <h4 className="px-5 font-bold">
+            {currentData.productName} - ${currentData.productValue}
+          </h4>
+
+          <div className="chart-container py-3 px-3">
+            <Chart
+              options={chartOptions}
+              series={chartData.series}
+              type="line"
+              height={200}
+              width={300}
+            />
+          </div>
+        </div>
+
+        <div className="bg-slate-600 w-2/5 rounded-2xl drop-shadow-xl/20 ml-30">
+          <Chart 
+            options={revOptions}
+            series={revSeries} type="bar" height={300} width={600}/>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
