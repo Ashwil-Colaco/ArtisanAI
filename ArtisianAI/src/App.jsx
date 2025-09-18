@@ -1,6 +1,7 @@
 import Navbar from "./Components/navbar";
 import MainPage from "./Components/mainpage";
 import LoginPage from "./Components/loginPage";
+import SignUpPage from "./Components/signUpPage";
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -14,8 +15,8 @@ function AnimatedRoutes() {
     exit: { opacity: 0 },
   };
 
-  // LoginPage: fade + slight upward slide
-  const loginPageVariants = {
+  // Login & SignUp Page: fade + slight upward slide
+  const authPageVariants = {
     initial: { opacity: 0, y: 50 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -50 },
@@ -45,11 +46,12 @@ function AnimatedRoutes() {
             </motion.div>
           } 
         />
+
         <Route 
           path="/login" 
           element={
             <motion.div
-              variants={loginPageVariants}
+              variants={authPageVariants}
               initial="initial"
               animate="animate"
               exit="exit"
@@ -57,6 +59,22 @@ function AnimatedRoutes() {
               className="min-h-screen bg-black absolute inset-0 w-full flex justify-center items-center"
             >
               <LoginPage />
+            </motion.div>
+          } 
+        />
+
+        <Route 
+          path="/signup" 
+          element={
+            <motion.div
+              variants={authPageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={fadeTransition}
+              className="min-h-screen bg-black absolute inset-0 w-full flex justify-center items-center"
+            >
+              <SignUpPage />
             </motion.div>
           } 
         />
