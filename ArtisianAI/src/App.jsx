@@ -1,11 +1,14 @@
-import Dashboard from './Components/DashBoard';
+import Dashboard from './Components/DashBoard.jsx';
+import React from 'react';
 
 function App() {
 
 
   return (
     <>
+    <div>
       <Dashboard/>
+    </div>
     </>
   )
 }
