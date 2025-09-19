@@ -1,6 +1,6 @@
 import Navbar from "./Components/navbar";
 import MainPage from "./Components/mainpage";
-import LoginPage from "./Components/loginPage";
+import LoginPage from "./Components/LoginPage";
 import SignUpPage from "./Components/signUpPage";
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
