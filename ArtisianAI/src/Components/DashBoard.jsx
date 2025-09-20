@@ -131,6 +131,12 @@ const Dashboard = () => {
 
   const revOptions = {
     chart: { id: "Revenue Chart" },
+    responsive:[{
+       breakpoint: 480,
+      options: {
+        chart: { width: "80%" },
+        legend: { position: "bottom" },
+    },}],
     xaxis: {
       categories: productNames,
       title: { text: "Products" },
@@ -248,12 +254,12 @@ const Dashboard = () => {
         controlslist="nodownload nofullscreen noremoteplayback"
         disablepictureinpictures
         onEnded={handleVideoEnd}
-        className="absolute top-15 left-0 w-full h-5/4 object-cover transition-opacity duration-1000 ease-in-out"
+        className="absolute top-15 left-0 w-full h-5/4 max-sm:h-9/4 max-sm:w-5/4 object-cover transition-opacity duration-1000 ease-in-out"
       />
       <Header/>
       <div className="text-white">
-        <div className="flex flex-row mt-20 ">
-          <div className="bg-slate-800 w-2/9 ml-30 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:linear hover:duration-700 b a">
+        <div className="flex flex-row mt-20 max-sm:flex-col">
+          <div className="bg-slate-800 w-2/9 ml-60 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:linear hover:duration-700 b a">
             <h3 className="font-extrabold ml-2">Revenue of {artisan.productName} in 2024</h3>
             <div className="font-mono ml-2">&#8377;{artisan.revenueYearp}</div>
             <div className={`ml-2 ${width[widIndex]} ${colors[colorIndex]} h-1 mt-3 transition-all ease-in-out duration-1200`}></div>
@@ -269,7 +275,7 @@ const Dashboard = () => {
             <div className="font-mono ml-2">{artisan.revenueYeart}-{artisan.revenueYearp}</div>
           </div>
         </div>
-        <div className="flex flex-row mt-5">
+        <div className="flex flex-row mt-5 max-sm:flex-col">
           <div className="bg-slate-800 w-2/9 rounded-2xl py-2 drop-shadow-xl/20 ml-60 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700 b c">
             <h3 className="px-5 font-extrabold">{currentData.artisanName}</h3>
             <h4 className="px-5 font-bold">

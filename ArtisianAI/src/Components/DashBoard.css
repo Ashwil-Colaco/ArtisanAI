@@ -18,4 +18,36 @@
     .e{
         width:60%;
     }
+    
+}
+@media (max-width:768px){
+    .f{
+        margin-left: -15%;
+    }
+}
+
+@media (max-width:768px){
+    .a{
+        width:80%;
+        margin-top: 10px;
+        margin-left: 30px;
+    }
+    .b{
+        margin-top:-25px;
+    }
+    .c{
+        width:85%;
+        margin-left: 22px;
+        margin-top:10px;
+    }
+    .d{
+        margin-top:30px;
+        width:85%;
+        margin-left:10px;
+    }
+    .e{
+        margin-top: 10px;
+        margin-left: 20px;
+        width:85%;
+    }
 }
