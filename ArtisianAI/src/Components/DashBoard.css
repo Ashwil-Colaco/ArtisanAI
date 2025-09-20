@@ -1,7 +1,21 @@
 @import "tailwindcss";
 
-@layer base{
-    body{
-        @apply bg-slate-800;
+@media (max-width: 1024px){
+    .a{
+        height:100px;
+        width:30%;
+    }
+    .b{
+        margin-left:2%;
+    }
+    .c{
+        width:32%;
+    }
+    .d{
+        width:60%;
+        margin-left: 2%;
+    }
+    .e{
+        width:60%;
     }
 }

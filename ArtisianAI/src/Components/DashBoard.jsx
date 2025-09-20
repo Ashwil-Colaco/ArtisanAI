@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Chart from "react-apexcharts";
 import "./DashBoard.css";
 import Header from "./Header";
+import video from "../assets/videoplayback.mp4";
 
 const Dashboard = () => {
   const artisanData = [
@@ -105,6 +106,20 @@ const Dashboard = () => {
       title: { text: "Sales over the years" },
     },
     yaxis: { title: { text: "Units Sold over the years" } },
+    fill:{
+      type:"gradient",
+      gradient:{
+        shade:"light",
+        type:"vertical",
+        shadeIntensity: 0.5,         
+      gradientToColors: ["limegreen"], // end color of gradient
+      inverseColors: false,
+      opacityFrom: 0.9,
+      opacityTo: 0.3,
+      stops: [0, 90, 100], 
+      },
+    },
+    colors: ["yellow"], // optional: blue bars
   };
 
   const chartData = {
@@ -165,16 +180,16 @@ const Dashboard = () => {
   const [widIndex,setWidIndex] = useState(0);
 
   const width = [
-    "w-60",
-    "w-72",
-    "w-54",
-    "w-40",
-    "w-60",
-    "w-48",
-    "w-68",
-    "w-50",
-    "w-62",
-    "w-50",
+    "w-1/2",
+    "w-2/3",
+    "w-6/10",
+    "w-7/10",
+    "w-6/9",
+    "w-4/5",
+    "w-6/7",
+    "w-5/8",
+    "w-6/8",
+    "w-5/9",
   ];
   const colors = [
     "bg-red-500",
@@ -214,31 +229,48 @@ const Dashboard = () => {
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
-
+  const videoRef = useRef(null);
+  const handleVideoEnd = () => {
+    videoRef.current.currentTime = 0; 
+    videoRef.current.play();
+  }
 
   return (
+    
     <div>
-      <Header />
+      
+      <video
+        ref={videoRef}
+        src={video}
+        autoPlay
+        loop={false}
+        muted
+        controlslist="nodownload nofullscreen noremoteplayback"
+        disablepictureinpictures
+        onEnded={handleVideoEnd}
+        className="absolute top-15 left-0 w-full h-5/4 object-cover transition-opacity duration-1000 ease-in-out"
+      />
+      <Header/>
       <div className="text-white">
         <div className="flex flex-row mt-20 ">
-          <div className="bg-slate-600 w-2/9 ml-60 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:linear hover:duration-700">
+          <div className="bg-slate-800 w-2/9 ml-30 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:linear hover:duration-700 b a">
             <h3 className="font-extrabold ml-2">Revenue of {artisan.productName} in 2024</h3>
             <div className="font-mono ml-2">&#8377;{artisan.revenueYearp}</div>
             <div className={`ml-2 ${width[widIndex]} ${colors[colorIndex]} h-1 mt-3 transition-all ease-in-out duration-1200`}></div>
           </div>
-          <div className="bg-slate-600 w-2/9 ml-5 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+          <div className="bg-slate-800 w-2/9 ml-5 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700 a">
             <h3 className="font-extrabold ml-2">Revenue of {artisan.productName} in 2025</h3>
             <div className="font-mono ml-2">&#8377;{artisan.revenueYeart}</div>
             <div className={`ml-2 ${width[widIndex]} ${colors[colorIndex]} h-1 mt-3 transition-all ease-in-out duration-1200`}></div>
           </div>
-          <div className="bg-slate-600 w-2/9 ml-5 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+          <div className="bg-slate-800 w-2/9 ml-5 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700 a">
             <h3 className="font-extrabold ml-2">Year-Over-Year (YoY) growth</h3>
             <h4 className="font-bold ml-2">{artisan.productName}</h4>
             <div className="font-mono ml-2">{artisan.revenueYeart}-{artisan.revenueYearp}</div>
           </div>
         </div>
         <div className="flex flex-row mt-5">
-          <div className="bg-slate-600 w-2/9 rounded-2xl py-2 drop-shadow-xl/20 ml-60 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+          <div className="bg-slate-800 w-2/9 rounded-2xl py-2 drop-shadow-xl/20 ml-60 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700 b c">
             <h3 className="px-5 font-extrabold">{currentData.artisanName}</h3>
             <h4 className="px-5 font-bold">
               {currentData.productName} - ${currentData.productValue}
@@ -253,7 +285,7 @@ const Dashboard = () => {
               />
             </div>
           </div>
-          <div className="bg-slate-600 w-4/9 rounded-2xl drop-shadow-xl/20 ml-10 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+          <div className="bg-slate-800 w-4/9 rounded-2xl drop-shadow-xl/20 ml-10 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700 d">
             <Chart 
               options={revOptions}
               series={revSeries} type="bar" height={300} width={600}/>
@@ -262,7 +294,7 @@ const Dashboard = () => {
         
         {/* New section for video upload and display */}
         <div className="flex flex-row mt-5">
-          <div className="bg-slate-600 w-9/13 rounded-2xl py-2 drop-shadow-xl/20 ml-60 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+          <div className="bg-slate-800 w-4/9 rounded-2xl py-2 drop-shadow-xl/20 ml-60 hover:scale-102 hover:transition-all hover:ease-in-out hover:duration-700 b e">
           {!videoFile && (
             <>
             <h3 className="px-5 font-extrabold">Upload and Display a Video</h3>
@@ -282,6 +314,9 @@ const Dashboard = () => {
               >
                 Upload Video
               </button>
+              <div className="bg-slate-700 text-gray-200 font-medium py-2 px-4 rounded-lg mt-2">
+                &#x231b; Nothing to show for these dates
+              </div>
             </div>
             </>
             )}
@@ -291,7 +326,7 @@ const Dashboard = () => {
                 <video 
                   src={videoFile} 
                   controls 
-                  width="70%" 
+                  width="100%" 
                   height="auto"
                 />
               </div>
