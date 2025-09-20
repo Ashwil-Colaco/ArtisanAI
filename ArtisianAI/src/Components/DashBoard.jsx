@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Chart from "react-apexcharts";
 import "./DashBoard.css";
 import Header from "./Header";
@@ -119,15 +119,38 @@ const Dashboard = () => {
     xaxis: {
       categories: productNames,
       title: { text: "Products" },
-      labels: { rotate: -45 }, // tilt labels for better readability
+      labels: { rotate: -45,
+        style:{
+          colors:'#ffffff',
+          fontWeight: 600,
+        }
+       }, // tilt labels for better readability
     },
     yaxis: {
       title: { text: "Product Value ($)" },
+      labels:{
+        style:{
+          colors:'#ffffff'
+        }
+      }
     },
     plotOptions: {
       bar: { borderRadius: 4, horizontal: false }, // rounded bars
     },
-    colors: ["#60A5FA"], // optional: blue bars
+    fill:{
+      type:"gradient",
+      gradient:{
+        shade:"light",
+        type:"vertical",
+        shadeIntensity: 0.5,         
+      gradientToColors: ["#33ffcc"], // end color of gradient
+      inverseColors: false,
+      opacityFrom: 0.9,
+      opacityTo: 0.3,
+      stops: [0, 90, 100], 
+      },
+    },
+    colors: ["#008ffb"], // optional: blue bars
   };
 
   const revSeries = [
@@ -136,6 +159,7 @@ const Dashboard = () => {
       data: productValues,
     },
   ];
+
   const [index, setIndex] = useState(0);
   const [colorIndex, setColorIndex] = useState(0);
   const [widIndex,setWidIndex] = useState(0);
@@ -164,59 +188,115 @@ const Dashboard = () => {
     "bg-white",
     "bg-slate-200",
   ];
+
   useEffect(()=>{
     const interval = setInterval(()=> {
-        setIndex((prev)=>(prev+1)% artisanData.length);
-    setColorIndex((prev)=>(prev+1)% colors.length);
-setWidIndex((prev)=>(prev+1)% width.length);},10000);
+      setIndex((prev)=>(prev+1)% artisanData.length);
+      setColorIndex((prev)=>(prev+1)% colors.length);
+      setWidIndex((prev)=>(prev+1)% width.length);},10000);
     return () => clearInterval(interval);
   },[artisanData.length, colors.length, width.length]);
 
   const artisan = artisanData[index];
 
+  // Video Upload State and Logic
+  const [videoFile, setVideoFile] = useState(null);
+  const fileInputRef = useRef(null);
+  
+  const handleVideoUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const videoUrl = URL.createObjectURL(file);
+      setVideoFile(videoUrl);
+    }
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
 
   return (
     <div>
       <Header />
-      <div className="flex flex-row mt-20 ">
-        <div className="bg-slate-600 w-2/9 ml-40 h-20 rounded-2xl">
+      <div className="text-white">
+        <div className="flex flex-row mt-20 ">
+          <div className="bg-slate-600 w-2/9 ml-60 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:linear hover:duration-700">
             <h3 className="font-extrabold ml-2">Revenue of {artisan.productName} in 2024</h3>
             <div className="font-mono ml-2">&#8377;{artisan.revenueYearp}</div>
             <div className={`ml-2 ${width[widIndex]} ${colors[colorIndex]} h-1 mt-3 transition-all ease-in-out duration-1200`}></div>
-        </div>
-        <div className="bg-slate-600 w-2/9 ml-25 h-20 rounded-2xl">
+          </div>
+          <div className="bg-slate-600 w-2/9 ml-5 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
             <h3 className="font-extrabold ml-2">Revenue of {artisan.productName} in 2025</h3>
             <div className="font-mono ml-2">&#8377;{artisan.revenueYeart}</div>
             <div className={`ml-2 ${width[widIndex]} ${colors[colorIndex]} h-1 mt-3 transition-all ease-in-out duration-1200`}></div>
-        </div>
-        <div className="bg-slate-600 w-2/9 ml-25 h-20 rounded-2xl">
+          </div>
+          <div className="bg-slate-600 w-2/9 ml-5 h-20 rounded-2xl drop-shadow-2xl hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
             <h3 className="font-extrabold ml-2">Year-Over-Year (YoY) growth</h3>
             <h4 className="font-bold ml-2">{artisan.productName}</h4>
             <div className="font-mono ml-2">{artisan.revenueYeart}-{artisan.revenueYearp}</div>
-        </div>
-      </div>
-      <div className="flex flex-row mt-20">
-        <div className="bg-slate-600 w-2/9 rounded-2xl py-2 drop-shadow-xl/20 ml-60">
-          <h3 className="px-5 font-extrabold">{currentData.artisanName}</h3>
-          <h4 className="px-5 font-bold">
-            {currentData.productName} - ${currentData.productValue}
-          </h4>
-
-          <div className="chart-container py-3 px-3">
-            <Chart
-              options={chartOptions}
-              series={chartData.series}
-              type="line"
-              height={200}
-              width={300}
-            />
           </div>
         </div>
-
-        <div className="bg-slate-600 w-2/5 rounded-2xl drop-shadow-xl/20 ml-30">
-          <Chart 
-            options={revOptions}
-            series={revSeries} type="bar" height={300} width={600}/>
+        <div className="flex flex-row mt-5">
+          <div className="bg-slate-600 w-2/9 rounded-2xl py-2 drop-shadow-xl/20 ml-60 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+            <h3 className="px-5 font-extrabold">{currentData.artisanName}</h3>
+            <h4 className="px-5 font-bold">
+              {currentData.productName} - ${currentData.productValue}
+            </h4>
+            <div className="chart-container py-3 px-3">
+              <Chart
+                options={chartOptions}
+                series={chartData.series}
+                type="line"
+                height={200}
+                width={300}
+              />
+            </div>
+          </div>
+          <div className="bg-slate-600 w-4/9 rounded-2xl drop-shadow-xl/20 ml-10 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+            <Chart 
+              options={revOptions}
+              series={revSeries} type="bar" height={300} width={600}/>
+          </div>
+        </div>
+        
+        {/* New section for video upload and display */}
+        <div className="flex flex-row mt-5">
+          <div className="bg-slate-600 w-9/13 rounded-2xl py-2 drop-shadow-xl/20 ml-60 hover:scale-105 hover:transition-all hover:ease-in-out hover:duration-700">
+          {!videoFile && (
+            <>
+            <h3 className="px-5 font-extrabold">Upload and Display a Video</h3>
+            <div className="px-5 py-3">
+              {/* The hidden file input */}
+              <input 
+                type="file" 
+                accept="video/*" 
+                onChange={handleVideoUpload}
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+              />
+              {/* The styled button that triggers the input */}
+              <button
+                onClick={handleButtonClick}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+              >
+                Upload Video
+              </button>
+            </div>
+            </>
+            )}
+            {/* Conditionally render the video player if a file is uploaded */}
+            {videoFile && (
+              <div className="px-5 py-3">
+                <video 
+                  src={videoFile} 
+                  controls 
+                  width="70%" 
+                  height="auto"
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
