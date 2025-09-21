@@ -1,44 +1,51 @@
-from google.adk.tools import Tool, ToolContext
+import re
 from google.generativeai import configure, GenerativeModel
-
 import os
 from dotenv import load_dotenv
 
-# Load from .env
+# Load API key
 load_dotenv()
-
-# Get API key
 api_key = os.getenv("GOOGLE_API_KEY")
-
-# Configure Google Generative AI
 configure(api_key=api_key)
 
+def storytelling_agent_func(state: dict) -> dict:
+    artisan_name = state.get("artisan_name", "Unknown Artisan")
+    craft_type = state.get("craft_type", "handmade craft")
+    product_name = state.get("product_name", "unique item")
+    region = state.get("region", "India")
+    product_description = state.get("description", "")
+    product_price = state.get("price", "0")
 
-class StorytellingAgent(Tool):
-    name = "storytelling_agent"
-    description = "Generates cultural and marketing stories for artisan products"
+    prompt = f"""
+You are a cultural storyteller and marketing expert.
+Create three outputs based on the following product information:
+Product Name: {product_name}
+Artisan: {artisan_name}
+Craft Type: {craft_type}
+Region: {region}
+Description: {product_description}
+Current Price: {product_price}
 
-    def run(self, tool_context: ToolContext) -> dict:
-        # Collect artisan/product details from context
-        artisan_name = tool_context.state.get("artisan_name", "Unknown Artisan")
-        craft_type = tool_context.state.get("craft_type", "handmade craft")
-        product_name = tool_context.state.get("product_name", "unique item")
-        region = tool_context.state.get("region", "India")
+1. A short product story (2-3 sentences) for an e-commerce listing.
+2. A longer cultural narrative (150-200 words).
+3. A recommended price for the product.
+Return the response in numbered sections (1, 2, 3).
+"""
 
-        # Prompt for storytelling
-        prompt = f"""
-        You are a cultural storyteller. 
-        Create two outputs:
-        1. A short product story (2-3 sentences) for an e-commerce listing. 
-        2. A longer cultural narrative (150-200 words) connecting the artisan, {artisan_name}, 
-           and their {craft_type} from {region} to heritage and modern buyers.
-        Product: {product_name}.
-        """
+    model = GenerativeModel("gemini-1.5-flash")
+    response = model.generate_content(prompt)
 
-        model = GenerativeModel("gemini-1.5-flash")  # You can also use gemini-pro
-        response = model.generate_content(prompt)
+    response_text = response.candidates[0].content.parts[0].text
 
-        return {
-            "short_story": response.candidates[0].content.parts[0].text.split("\n")[0],
-            "long_story": "\n".join(response.candidates[0].content.parts[0].text.split("\n")[1:])
-        }
+    # Use regex to extract 1, 2, 3 sections
+    matches = re.findall(r"\d\.\s*(.+?)(?=\n\d\.|\Z)", response_text, re.S)
+
+    short_story = matches[0].strip() if len(matches) > 0 else "Short story could not be generated."
+    long_story = matches[1].strip() if len(matches) > 1 else "Long story could not be generated."
+    recommended_price = matches[2].strip() if len(matches) > 2 else "Price recommendation could not be generated."
+
+    return {
+        "short_story": short_story,
+        "long_story": long_story,
+        "recommended_price": recommended_price
+    }
