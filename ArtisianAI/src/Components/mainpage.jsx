@@ -1,10 +1,21 @@
-import React, { useRef } from 'react';
-import video from '../assets/video.mp4';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React, { useRef, useState, useEffect } from "react";
+import video from "../assets/video.mp4";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function MainPage() {
   const videoRef = useRef(null);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // ✅ added useNavigate
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleVideoEnd = () => {
     videoRef.current.currentTime = 0;
@@ -38,12 +49,12 @@ export default function MainPage() {
           Unlock your creative potential with cutting-edge AI technology tailored for artisans. Automate repetitive tasks, enhance creativity, and streamline the design process with intelligent AI.
         </p>
 
-        <Link
-          to="/login"
+        <button
+          onClick={() => (user ? navigate("/products") : navigate("/login"))} // ✅ navigate to ProductsDashboard
           className="inline-block bg-white/10 text-white border border-white/30 py-3 px-6 rounded-lg hover:bg-white/20 transition-colors duration-300 backdrop-blur-sm max-sm:active:bg-white/70"
         >
-          Get Started
-        </Link>
+          {user ? "Upload Details" : "Get Started"}
+        </button>
       </div>
     </motion.div>
   );
