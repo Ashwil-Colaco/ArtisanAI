@@ -4,6 +4,7 @@ import LoginPage from "./Components/LoginPage";
 import SignUpPage from "./Components/signUpPage";
 import AddProductPage from "./Components/AddProductPage"; 
 import ProductsDashboard from "./Components/ProductsDashboard"; // ✅ new page
+import DashBoard from "./Components/DashBoard";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -123,6 +124,22 @@ function AnimatedRoutes() {
               transition={fadeTransition}
               className="min-h-screen bg-black absolute inset-0 w-full flex justify-center items-center"
             >
+              {!hideNavbar && <Navbar />}
+              <AddProductPage />
+            </motion.div>
+          }
+          />
+          {/* Add dashboard */}
+          <Route 
+            path="/dashboard"
+            element={
+            <motion.div
+              variants={authPageVariants} 
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={fadeTransition}
+              className="min-h-screen bg-black absolute inset-0 w-full flex justify-center items-center">
               {!hideNavbar && <Navbar />}
               <AddProductPage />
             </motion.div>
