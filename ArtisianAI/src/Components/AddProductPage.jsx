@@ -122,7 +122,7 @@ export default function AddProductPage() {
   return (
     <div className="text-white px-4 pt-25">
       <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row w-full">
-        {/* Right Side: Product Details */}
+    
         <div className="lg:w-2/3 ml-auto fixed top-[65px] right-0 p-8 space-y-4 lg:pl-8 lg:pr-8 pr-8 pb-8 overflow-auto max-h-[calc(100vh-65px)] box-border">
           <input type="text" name="name" placeholder="Product Name" value={productData.name} onChange={handleChange} required
             className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 placeholder-white/70 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition"/>
