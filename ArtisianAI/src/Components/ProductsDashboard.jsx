@@ -50,7 +50,7 @@ export default function ProductsDashboard() {
         <div className="space-y-4">
           <button
             onClick={() => navigate("/addproduct")}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg mb-4"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg mb-4 max-sm:ml-14"
           >
             Add Another Product
           </button>

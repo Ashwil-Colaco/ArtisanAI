@@ -102,7 +102,7 @@ export default function AddProductPage() {
     <div className="text-white px-4 pt-25">
       <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row w-full">
         {/* Left Side: Video Upload */}
-        <div className="lg:w-1/3 flex flex-col justify-center items-center h-screen fixed top-24 left-0 mr-8">
+        <div className="order-2 lg:order-1 lg:w-1/3 flex flex-col justify-center items-center lg:h-screen lg:fixed lg:top-24 lg:left-0 lg:mr-8">
           <label className="mb-4 text-lg font-semibold">Upload Product Video</label>
 
           {!productData.video ? (
@@ -241,7 +241,7 @@ export default function AddProductPage() {
           <button
             type="submit"
             disabled={uploading}
-            className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white rounded-lg py-3 font-semibold mt-4"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white rounded-lg py-3 font-semibold mt-20"
           >
             {uploading ? "Uploading..." : "Submit Product"}
           </button>
