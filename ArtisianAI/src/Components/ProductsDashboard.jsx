@@ -32,7 +32,7 @@ export default function ProductsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#111111] text-white pt-[90px] px-8"> 
+    <div className="overflow-y-auto bg-[#111111] text-white pt-[90px] px-8"> 
       {/* ✅ pt-[80px] ensures content starts below fixed navbar */}
       <h1 className="text-3xl font-bold mb-8 text-center">Your Products</h1>
 

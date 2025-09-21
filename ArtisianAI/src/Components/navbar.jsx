@@ -20,7 +20,6 @@ export default function Navbar() {
     const auth = getAuth();
     signOut(auth);
   };
-
   return (
     <nav className="fixed top-0 left-0 w-full z-50 p-4 bg-transparent">
       <div className="max-w-7xl h-[50px] mx-auto flex justify-between items-center">
