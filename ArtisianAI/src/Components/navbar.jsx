@@ -20,7 +20,6 @@ export default function Navbar() {
     const auth = getAuth();
     signOut(auth);
   };
-
   return (
     <nav className="fixed top-0 left-0 w-full z-50 p-4 bg-transparent">
       <div className="max-w-7xl h-[50px] mx-auto flex justify-between items-center">
@@ -94,7 +93,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden bg-white/10 backdrop-blur-md border-t border-white/20 w-full left-0 absolute top-[65px] overflow-hidden transition-all duration-500 ${
+        className={`md:hidden bg-white/10 backdrop-blur-md border-t border-white/20 w-full left-0 absolute top-[80px] overflow-hidden transition-all duration-500 ${
           isMobile ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >

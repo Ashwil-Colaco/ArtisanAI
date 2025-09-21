@@ -32,7 +32,7 @@ export default function ProductsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#111111] text-white pt-[90px] px-8"> 
+    <div className="overflow-y-auto bg-[#111111] text-white pt-[90px] px-8"> 
       {/* ✅ pt-[80px] ensures content starts below fixed navbar */}
       <h1 className="text-3xl font-bold mb-8 text-center">Your Products</h1>
 
@@ -50,7 +50,7 @@ export default function ProductsDashboard() {
         <div className="space-y-4">
           <button
             onClick={() => navigate("/addproduct")}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg mb-4"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg mb-4 max-sm:ml-14"
           >
             Add Another Product
           </button>
