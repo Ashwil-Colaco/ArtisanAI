@@ -1,37 +1,47 @@
 # main.py
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import Optional
 from storyagent import storytelling_agent_func
-
-# Define the request model
-class ProductData(BaseModel):
-    audience: str
-    benefits: str
-    brand: str
-    buyLink: str
-    category: str
-    contact: str
-    createdAt: str
-    description: str
-    discount: str
-    name: str
-    price: str
-    problem: str
 
 app = FastAPI()
 
-@app.post("/generate_story/")
-def generate_story(product_data: ProductData):
-    # Prepare the state dictionary
+# Define Product schema matching your frontend payload
+class Product(BaseModel):
+    userId: str
+    name: str
+    category: str
+    description: str
+    problem: str
+    benefits: str
+    audience: str
+    price: str
+    discount: str
+    buyLink: str
+    brand: str
+    contact: str
+    videoUrl: Optional[str] = None
+
+@app.post("/ai")
+async def generate_ai_content(product: Product):
+    """
+    Receives product data from frontend and calls storytelling agent
+    """
     state = {
-        "artisan_name": product_data.brand,
-        "craft_type": product_data.category,
-        "product_name": product_data.name,
+        "artisan_name": product.brand,
+        "craft_type": product.category,
+        "product_name": product.name,
         "region": "India",
-        "description": product_data.description,
-        "price": product_data.price
+        "description": product.description,
+        "price": product.price,
     }
 
-    # Directly call the storytelling function
+    # Call AI function
     result = storytelling_agent_func(state)
-    return result
+
+    # Return AI result along with original product data
+    return {
+        "product": product.dict(),
+        "ai_result": result
+    }
+
