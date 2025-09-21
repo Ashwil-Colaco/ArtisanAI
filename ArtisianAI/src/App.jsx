@@ -141,7 +141,7 @@ function AnimatedRoutes() {
               transition={fadeTransition}
               className="min-h-screen bg-black absolute inset-0 w-full flex justify-center items-center">
               {!hideNavbar && <Navbar />}
-              <AddProductPage />
+              <DashBoard />
             </motion.div>
           }
         />
