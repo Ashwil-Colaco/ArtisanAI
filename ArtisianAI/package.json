@@ -14,11 +14,13 @@
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.2",
     "@tailwindcss/vite": "^4.1.13",
+    "apexcharts": "^5.3.5",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "firebase": "^12.3.0",
     "framer-motion": "^12.23.15",
     "react": "^19.1.1",
+    "react-apexcharts": "^1.7.0",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1"
   },
