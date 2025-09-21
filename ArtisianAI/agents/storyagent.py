@@ -28,7 +28,7 @@ Current Price: {product_price}
 
 1. A short product story (2-3 sentences) for an e-commerce listing.
 2. A longer cultural narrative (150-200 words).
-3. A recommended price for the product.
+3. A recommended price for the product in INR.
 Return the response in numbered sections (1, 2, 3).
 """
 

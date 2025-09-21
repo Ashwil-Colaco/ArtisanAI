@@ -1,14 +1,25 @@
 import express from "express";
 import cors from "cors";
+import axios from "axios";
 
 const app = express();
-app.use(cors()); // allows requests from any origin
-app.use(express.json()); // parses JSON in POST requests
+app.use(cors());
+app.use(express.json());
 
 // Route to receive POST data
-app.post("/ai", (req, res) => {
-  console.log("Received data:", req.body); // <- prints sent data
-  res.json({ message: "Data received successfully" });
+app.post("/ai", async (req, res) => {
+  try {
+    console.log("Received data:", req.body);
+
+    // Forward the data to FastAPI running on port 8000
+    const response = await axios.post("http://127.0.0.1:8000/ai", req.body);
+
+    // Send FastAPI's response back to the frontend
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error forwarding to FastAPI:", error.message);
+    res.status(500).json({ error: "Failed to reach AI service" });
+  }
 });
 
 app.listen(5000, () => {
