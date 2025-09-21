@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// ✅ Firebase imports
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,12 +24,28 @@ export default function LoginPage() {
     // navigate('/dashboard');
   };
 
+  // ✅ Login handler
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Login successful!");
+      navigate("/"); // redirect to homepage
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-[#111111] text-white px-4">
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg p-10 max-w-md w-full">
         <h1 className="text-3xl font-bold mb-6 text-center">Login</h1>
 
-        <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+        {/* ✅ Added onSubmit */}
+        <form onSubmit={handleLogin} className="flex flex-col space-y-4">
           <input
             type="email"
             placeholder="Email"

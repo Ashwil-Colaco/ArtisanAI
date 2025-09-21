@@ -2,11 +2,22 @@ import Navbar from "./Components/navbar";
 import MainPage from "./Components/mainpage";
 import LoginPage from "./Components/LoginPage";
 import SignUpPage from "./Components/signUpPage";
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import AddProductPage from "./Components/AddProductPage"; 
+import ProductsDashboard from "./Components/ProductsDashboard"; // ✅ new page
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+
+// ✅ Firebase imports
+import { useEffect } from "react";
+import { auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 function AnimatedRoutes() {
   const location = useLocation();
+
+  // Hide Navbar on login & signup pages
+  const hideNavbar =
+    location.pathname === "/login" || location.pathname === "/signup";
 
   // MainPage: subtle fade
   const mainPageVariants = {
@@ -15,7 +26,7 @@ function AnimatedRoutes() {
     exit: { opacity: 0 },
   };
 
-  // Login & SignUp Page: fade + slight upward slide
+  // Auth pages + dashboard + add product: fade + slight upward slide
   const authPageVariants = {
     initial: { opacity: 0, y: 50 },
     animate: { opacity: 1, y: 0 },
@@ -30,8 +41,9 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route 
-          path="/" 
+        {/* Main Page */}
+        <Route
+          path="/"
           element={
             <motion.div
               variants={mainPageVariants}
@@ -41,14 +53,15 @@ function AnimatedRoutes() {
               transition={fadeTransition}
               className="min-h-screen bg-[#111111] absolute inset-0 w-full"
             >
-              <Navbar />
+              {!hideNavbar && <Navbar />}
               <MainPage />
             </motion.div>
-          } 
+          }
         />
 
-        <Route 
-          path="/login" 
+        {/* Login Page */}
+        <Route
+          path="/login"
           element={
             <motion.div
               variants={authPageVariants}
@@ -60,11 +73,12 @@ function AnimatedRoutes() {
             >
               <LoginPage />
             </motion.div>
-          } 
+          }
         />
 
-        <Route 
-          path="/signup" 
+        {/* Sign Up Page */}
+        <Route
+          path="/signup"
           element={
             <motion.div
               variants={authPageVariants}
@@ -76,7 +90,43 @@ function AnimatedRoutes() {
             >
               <SignUpPage />
             </motion.div>
-          } 
+          }
+        />
+
+        {/* Products Dashboard */}
+        <Route
+          path="/products"
+          element={
+            <motion.div
+              variants={authPageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={fadeTransition}
+              className="min-h-screen bg-black absolute inset-0 w-full flex flex-col"
+            >
+              {!hideNavbar && <Navbar />}
+              <ProductsDashboard />
+            </motion.div>
+          }
+        />
+
+        {/* Add Product Page */}
+        <Route
+          path="/addproduct"
+          element={
+            <motion.div
+              variants={authPageVariants} 
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={fadeTransition}
+              className="min-h-screen bg-black absolute inset-0 w-full flex justify-center items-center"
+            >
+              {!hideNavbar && <Navbar />}
+              <AddProductPage />
+            </motion.div>
+          }
         />
       </Routes>
     </AnimatePresence>
@@ -84,6 +134,19 @@ function AnimatedRoutes() {
 }
 
 function App() {
+  // Firebase auth listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User logged in:", user.email);
+      } else {
+        console.log("No user logged in");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <Router>
       <AnimatedRoutes />

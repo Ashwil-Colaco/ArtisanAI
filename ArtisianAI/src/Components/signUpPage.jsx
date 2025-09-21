@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// ✅ Firebase imports
+import { auth, db } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+
 export default function SignUpPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,12 +26,39 @@ export default function SignUpPage() {
     // navigate('/login');
   };
 
+  // ✅ Signup handler
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const name = e.target[0].value;
+    const email = e.target[1].value;
+    const password = e.target[2].value;
+
+    try {
+      // Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Store extra info in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name,
+        email,
+      });
+
+      alert("Signup successful!");
+      navigate("/login");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-[#111111] text-white px-4">
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg p-10 max-w-md w-full">
         <h1 className="text-3xl font-bold mb-6 text-center">Sign Up</h1>
 
-        <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+        
+        {/* ✅ Added onSubmit */}
+        <form onSubmit={handleSignup} className="flex flex-col space-y-4">
           <input
             type="text"
             placeholder="Name"
