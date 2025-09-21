@@ -87,27 +87,27 @@ export default function AddProductPage() {
       });
 
       // ✅ Send same data to /ai
-      await fetch("/ai", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: auth.currentUser.uid,
-          name: productData.name,
-          category: productData.category,
-          description: productData.description,
-          problem: productData.problem,
-          benefits: productData.benefits,
-          audience: productData.audience,
-          price: productData.price,
-          discount: productData.discount,
-          buyLink: productData.buyLink,
-          brand: productData.brand,
-          contact: productData.contact,
-          imageUrl,
-        }),
-      });
+    await fetch("http://localhost:5000/ai", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    userId: auth.currentUser.uid,
+    name: productData.name,
+    category: productData.category,
+    description: productData.description,
+    problem: productData.problem,
+    benefits: productData.benefits,
+    audience: productData.audience,
+    price: productData.price,
+    discount: productData.discount,
+    buyLink: productData.buyLink,
+    brand: productData.brand,
+    contact: productData.contact,
+    imageUrl,
+  }),
+});
+
+
 
       alert("Product added successfully!");
       navigate("/products"); // Redirect to dashboard
